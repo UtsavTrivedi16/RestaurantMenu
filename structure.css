@@ -1,0 +1,87 @@
+/* TODO: Font families and inheritance */
+body {
+    font-family: 'Roboto Mono', monospace;
+    color: white;
+    background-image: url(images/vegetables-set-left-black-slate_1220-685.avif);
+    background-repeat: repeat-y;
+    background-position: right top;
+    background-size: cover;
+    /* Shift text to left */
+    padding-left: 8px 
+}
+
+header h1 {
+    /* Changed to inline so that background colour width can be set in header */
+    font-weight: 600;
+    display: inline;
+    background-color: rgb(225, 16, 50);
+    width: 36%
+}
+
+
+
+a {
+    /* Setting width only works if display is block level. a is in line by default */
+    color: white;
+    font-weight: bolder;
+    text-decoration: none;
+}
+
+a:hover {
+    color: rgba(233, 21, 21, 0.925);
+}
+
+p.ingredients {
+    font-style: italic;
+    font-size: 0.7vw;
+    color: rgb(97, 226, 12);
+}
+
+li.mainCourse {
+    list-style-type: None;
+    background-image: url(images/CurryPot-OW.webp);
+    background-repeat: no-repeat;
+    background-size: 25px;
+    background-position: 0 5px;
+    padding-left: 35px;
+}
+
+input[type=submit] {
+    background-color: #84a051;
+    border: none;
+    border-radius: 8px;
+    color: white;                                                                                                                                                                                                                                                                         
+    padding: 16px;
+    text-align: center;
+    font-size: larger;
+    text-decoration: none;
+    display: inline-block;
+}
+
+input[type=submit]:hover {
+    color: rgba(233, 21, 21, 0.925);
+}
+
+input[type=text] {
+    height: 2vh;
+    width: 20vw;
+}
+
+@media screen and (max-height: 200px),
+       screen and (max-width: 1000px)
+{
+    footer{
+        visibility: hidden;
+    }
+}
+
+footer{
+    position: fixed;
+    bottom: 0;
+    right: 0;
+}
+
+footer p{
+    font-weight: 600;
+    font-style: bold
+}
