@@ -19,8 +19,8 @@
     "supertest": "^6.3.3"
   },
   "scripts": {
-    "test": "mocha \"test/**/*.test.js\" --require @babel/register",
-    "test:watch": "mocha \"test/unit/*.test.js\" --require @babel/register --watch",
+    "test": "mocha \"test/**/*.test.js\"",
+    "test:watch": "mocha \"test/unit/*.test.js\" --watch",
     "coverage": "nyc --reporter=lcov --reporter=text npm run test"
   },
   "nyc": {

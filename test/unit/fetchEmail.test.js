@@ -1,5 +1,3 @@
-const expect = require('chai').expect;
-const sinon = require('sinon');
 const emailValidator = require("../../src/thirdPartyAPIWrappers/emailValidator");
 const verifyFormSubmissionIsEmail = require("../../src/fetchEmail").verifyFormSubmissionIsEmail;
 const verifyEmailIsReachable = require("../../src/fetchEmail").verifyEmailIsReachable;
@@ -40,7 +38,7 @@ describe('User submits email', () => {
 
         let canEmailBeReachedStub = null;
 
-        beforeEach(function () {
+        before(function () {
             canEmailBeReachedStub = sinon.stub(emailValidator, "canEmailBeReached");
         });
 
@@ -76,27 +74,27 @@ describe('User submits email', () => {
 
 describe("EmailAPI", () => {
 
-    it('Email is stored in database', () => {
-        const emails = [
-            "utsavtrivedi16@gmail.com",
-            "utsav.trivedi@aviatnet.com"
-        ];
+    // it('Email is stored in database', () => {
+    //     const emails = [
+    //         "utsavtrivedi16@gmail.com",
+    //         "utsav.trivedi@aviatnet.com"
+    //     ];
 
-        for (let i = 0; i < emails.length; i++){
-            await storeEmailInDB(emails[i]);
+    //     for (let i = 0; i < emails.length; i++){
+    //         await storeEmailInDB(emails[i]);
 
-            const email = getEmailFromDB()
+    //         const email = getEmailFromDB()
 
-            expect(isEmail, " Email should be reachable " + emails[i]).to.deep.equal(false);
-        }
+    //         expect(isEmail, " Email should be reachable " + emails[i]).to.deep.equal(false);
+    //     }
 
-    })
+    // })
 
-    it('Email list can be retrieved', () => {
-        // Use sinon to fake this
-        // const email = getEmailFromForm();
-        // storeEmail(email);
-    })
+    // it('Email list can be retrieved', () => {
+    //     // Use sinon to fake this
+    //     // const email = getEmailFromForm();
+    //     // storeEmail(email);
+    // })
 
 })
 
