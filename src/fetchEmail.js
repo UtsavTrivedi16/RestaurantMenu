@@ -8,10 +8,8 @@ function verifyFormSubmissionIsEmail(email){
     }else{
         const emailSignIndex = email.indexOf("@");
         const isNumber = parseInt(email.substring(0, emailSignIndex));
-        if(isNumber){
-            return false;
-        } 
-        return true;
+        return !isNumber;
+
     }
 }
 
@@ -19,15 +17,21 @@ async function verifyEmailIsReachable(email){
     return await emailValidator.canEmailBeReached(email);
 }
 
-function getEmailFromForm(){
+async function storeEmail(email){
 
 }
 
-function storeEmail(email){
+async function getUserInfoFromEmail(email){
+
+}
+
+function getEmailFromForm(){
 
 }
 
 module.exports = {
     verifyFormSubmissionIsEmail,
-    verifyEmailIsReachable
+    verifyEmailIsReachable,
+    storeEmail,
+    getUserInfoFromEmail
 }

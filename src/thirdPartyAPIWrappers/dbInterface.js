@@ -1,5 +1,5 @@
 const MongoClient = require('mongodb').MongoClient;
-const DB_NAME = require('./app');
+const DB_NAME = require('../../src/app');
 
 export const setDatabaseData = async (collectionName, data) => {
     const client = await MongoClient.connect(
