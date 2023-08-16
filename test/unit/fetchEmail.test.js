@@ -4,10 +4,10 @@ const verifyEmailIsReachable = require("../../src/fetchEmail").verifyEmailIsReac
 const storeEmail = require("../../src/fetchEmail").storeEmail;
 const getUserInfoFromEmail = require("../../src/fetchEmail").getUserInfoFromEmail;
 
-describe('User submits email', () => {
+describe('When user submits email', () => {
 
-    describe("Email format tests", () => {
-        it('Email format is incorrect', () => {
+    describe("Email format is checked", () => {
+        it('Email should not be processed when format is wrong', () => {
             const emails = [
                 "lol",
                 "123&$",
@@ -23,7 +23,7 @@ describe('User submits email', () => {
             }
         });
 
-        it("Email format is correct", () => {
+        it("Email should be processed when format is correct", () => {
             const emails = [
                 "Rob@lol.com",
                 "James@yahoo.com",
@@ -36,7 +36,7 @@ describe('User submits email', () => {
         });
     });
 
-    describe("Email reachability tests", () => {
+    describe("Legit email ids can be reached", () => {
 
         let canEmailBeReachedStub = null;
 
@@ -44,7 +44,7 @@ describe('User submits email', () => {
             canEmailBeReachedStub = sinon.stub(emailValidator, "canEmailBeReached");
         });
 
-        it('Email is reachable', async () => {
+        it('Email id should be reachable provided it exists and has valid domain', async () => {
             const emails = [
                 "utsavtrivedi16@gmail.com",
                 "utsav.trivedi@aviatnet.com"
@@ -58,7 +58,7 @@ describe('User submits email', () => {
             }
         });
 
-        it('Email is not reachable', async () => {
+        it('Email id should not be reachable due to invalid domain or it does not exist', async () => {
             const emails = [
                 "Rob@fakeEmail.com",
                 "lol@aviatnet.com"
@@ -76,9 +76,9 @@ describe('User submits email', () => {
     });
 });
 
-describe("EmailAPI", () => {
+describe("EmailAPI to facilitate storage and retrieval of user and emails from database", () => {
 
-    it('Email is stored in database', async() => {
+    it('Email is stored with username in database after being collected from form', async() => {
         const emails = [
             {"utsavtrivedi16@gmail.com": "Utsav Trivedi"},
             {"utsav.trivedi@aviatnet.com": "Utsav Trivedi"}
