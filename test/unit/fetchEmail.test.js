@@ -1,8 +1,9 @@
 const emailValidator = require("../../src/thirdPartyAPIWrappers/emailValidator");
+const dbInterface = require("../../src/thirdPartyAPIWrappers/dbInterface");
 const verifyFormSubmissionIsEmail = require("../../src/fetchEmail").verifyFormSubmissionIsEmail;
 const verifyEmailIsReachable = require("../../src/fetchEmail").verifyEmailIsReachable;
-const storeEmail = require("../../src/fetchEmail").storeEmail;
-const getUserInfoFromEmail = require("../../src/fetchEmail").getUserInfoFromEmail;
+const storeUserAndEmail = require("../../src/fetchEmail").storeUserAndEmail;
+const getUserDataFromEmail = require("../../src/fetchEmail").getUserDataFromEmail;
 
 describe('When user submits email', () => {
 
@@ -19,7 +20,7 @@ describe('When user submits email', () => {
 
             for (let i = 0; i < emails.length; i++){
                 const isEmail = verifyFormSubmissionIsEmail(emails[i]);
-                expect(isEmail, " Email format should not be correct for " + emails[i]).to.equal(false);
+                expect(isEmail, " Email format should not be correct for " + emails[i]).to.be.false;
             }
         });
 
@@ -31,12 +32,12 @@ describe('When user submits email', () => {
             ]
             for (let i = 0; i < emails.length; i++){
                 const isEmail = verifyFormSubmissionIsEmail(emails[i]);
-                expect(isEmail, " Email format should be correct for " + emails[i]).to.equal(true);
+                expect(isEmail, " Email format should be correct for " + emails[i]).to.be.true;
             }
         });
     });
 
-    describe("Legit email ids can be reached", () => {
+    describe("Valid email ids can be reached", () => {
 
         let canEmailBeReachedStub = null;
 
@@ -54,7 +55,7 @@ describe('When user submits email', () => {
 
             for (let i = 0; i < emails.length; i++){
                 const isEmail = await verifyEmailIsReachable(emails[i]);
-                expect(isEmail, " Email should be reachable " + emails[i]).to.equal(true);
+                expect(isEmail, " Email should be reachable " + emails[i]).to.be.true;
             }
         });
 
@@ -68,7 +69,6 @@ describe('When user submits email', () => {
 
             for (let i = 0; i < emails.length; i++){
                 const isEmail = await verifyEmailIsReachable(emails[i]);
-                // expect(isEmail, " Email should be reachable " + emails[i]).to.equal(false);
                 expect(isEmail, " Email should be reachable " + emails[i]).to.be.false;
             }
 
@@ -78,6 +78,14 @@ describe('When user submits email', () => {
 
 describe("EmailAPI to facilitate storage and retrieval of user and emails from database", () => {
 
+    let setDataForCollectionStub = null;
+    let getDataFromCollectionUsingKeyStub = null;
+
+    before(function () {
+        setDataForCollectionStub = sinon.stub(dbInterface, "setDataForCollection");
+        getDataFromCollectionUsingKeyStub = sinon.stub(dbInterface, "getDataFromCollectionUsingKey");
+    });
+
     it('Email is stored with username in database after being collected from form', async() => {
         const emails = [
             {"utsavtrivedi16@gmail.com": "Utsav Trivedi"},
@@ -85,9 +93,12 @@ describe("EmailAPI to facilitate storage and retrieval of user and emails from d
         ];
 
         for (let i = 0; i < emails.length; i++){
-            await storeEmail(emails);
+            setDataForCollectionStub.callsFake(() => {console.log("Stored ", emails[i]," in DB")})
+            getDataFromCollectionUsingKeyStub.returns(emails[i]);
 
-            const emailEntry = await getUserInfoFromEmail(Object.values(emails[i])[0]);
+            await storeUserAndEmail(emails[i]);
+
+            const emailEntry = await getUserDataFromEmail(Object.values(emails[i])[0]);
 
             expect(emailEntry, " Email entered should be same as " + emails[i]).to.deep.equal(emails[i]);
         }

@@ -1,4 +1,5 @@
 const emailValidator = require("./thirdPartyAPIWrappers/emailValidator");
+const dbInterface = require("./thirdPartyAPIWrappers/dbInterface");
 
 function verifyFormSubmissionIsEmail(email){
     if(!email.includes("@")){
@@ -17,12 +18,12 @@ async function verifyEmailIsReachable(email){
     return await emailValidator.canEmailBeReached(email);
 }
 
-async function storeEmail(email){
-
+async function storeUserAndEmail(email){
+    await dbInterface.setDataForCollection("EmailList", email);
 }
 
-async function getUserInfoFromEmail(email){
-
+async function getUserDataFromEmail(email){
+    return await dbInterface.getDataFromCollectionUsingKey("EmailList", email);
 }
 
 function getEmailFromForm(){
@@ -32,6 +33,6 @@ function getEmailFromForm(){
 module.exports = {
     verifyFormSubmissionIsEmail,
     verifyEmailIsReachable,
-    storeEmail,
-    getUserInfoFromEmail
+    storeUserAndEmail,
+    getUserDataFromEmail
 }
