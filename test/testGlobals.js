@@ -1,6 +1,9 @@
 const sinon = require('sinon');
 const expect = require('chai').expect;
 
+require('dotenv').config({
+    path: "env/.env.test"
+});
 
 global.sinon = sinon;
 global.expect = expect;

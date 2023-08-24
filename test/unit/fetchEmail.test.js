@@ -1,11 +1,8 @@
 const emailValidator = require("../../src/thirdPartyAPIWrappers/emailValidator");
 const dbInterface = require("../../src/thirdPartyAPIWrappers/dbInterface");
-const verifyFormSubmissionIsEmail = require("../../src/fetchEmail").verifyFormSubmissionIsEmail;
-const verifyEmailIsReachable = require("../../src/fetchEmail").verifyEmailIsReachable;
-const storeUserAndEmail = require("../../src/fetchEmail").storeUserAndEmail;
-const getUserDataFromEmail = require("../../src/fetchEmail").getUserDataFromEmail;
+const { getUserDataFromEmail, storeUserAndEmail, verifyEmailIsReachable, verifyFormSubmissionIsEmail } = require("../../src/fetchEmail");
 
-describe('When user submits email', () => {
+describe('When user submits email it is checked', () => {
 
     describe("Email format is checked", () => {
         it('Email should not be processed when format is wrong', () => {
@@ -41,7 +38,7 @@ describe('When user submits email', () => {
 
         let canEmailBeReachedStub = null;
 
-        before(function () {
+        beforeEach(function () {
             canEmailBeReachedStub = sinon.stub(emailValidator, "canEmailBeReached");
         });
 
@@ -76,12 +73,12 @@ describe('When user submits email', () => {
     });
 });
 
-describe("EmailAPI to facilitate storage and retrieval of user and emails from database", () => {
+describe("Email storage and retrieval of user and emails from database", () => {
 
     let setDataForCollectionStub = null;
     let getDataFromCollectionUsingKeyStub = null;
 
-    before(function () {
+    beforeEach(function () {
         setDataForCollectionStub = sinon.stub(dbInterface, "setDataForCollection");
         getDataFromCollectionUsingKeyStub = sinon.stub(dbInterface, "getDataFromCollectionUsingKey");
     });

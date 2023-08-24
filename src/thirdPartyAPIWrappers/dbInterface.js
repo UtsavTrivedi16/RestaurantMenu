@@ -1,27 +1,33 @@
 const MongoClient = require('mongodb').MongoClient;
 
-const DB_NAME = process.env.NODE_ENV === 'test'
-    ? 'TEST_DB'
-    : 'PROD_DB';
+const DB_NAME = process.env.DB_NAME;
+const DB_URL = process.env.DB_URL.replace('${DB_NAME}', DB_NAME);
 
-const setDataForCollection = async (collectionName, data) => {
-    const client = await MongoClient.connect(
-        `mongodb://localhost:27017/TEST_DB`,
-        {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        },
-    );
-    const db = client.db(DB_NAME);
+const setDataForCollection = async (data, collectionName) => {
+    let client = null;
 
-    await db.collection(collectionName).insertMany(data);
+    try {
+        client = await MongoClient.connect(
+            DB_URL,
+            {
+                useNewUrlParser: true,
+                useUnifiedTopology: true,
+            },
+        );
+        const db = client.db(DB_NAME);
 
-    client.close();
+        await db.collection(collectionName).insertMany(data);
+    }catch(error){
+        console.error(error);
+    }finally{
+        client.close();
+    }
+
 };
 
 const getWholeCollection = async collectionName => {
     const client = await MongoClient.connect(
-        `mongodb://localhost:27017/TEST_DB`,
+        DB_URL,
         {
             useNewUrlParser: true,
             useUnifiedTopology: true,
@@ -38,7 +44,7 @@ const getWholeCollection = async collectionName => {
 
 const getDataFromCollectionUsingKey = async (collectionName, key) => {
     const client = await MongoClient.connect(
-        `mongodb://localhost:27017/TEST_DB`,
+        DB_URL,
         {
             useNewUrlParser: true,
             useUnifiedTopology: true,
@@ -55,7 +61,7 @@ const getDataFromCollectionUsingKey = async (collectionName, key) => {
 
 const resetDatabase = async () => {
     const client = await MongoClient.connect(
-        `mongodb://localhost:27017/TEST_DB`,
+        DB_URL,
         {
             useNewUrlParser: true,
             useUnifiedTopology: true,
