@@ -1,4 +1,4 @@
-const { resetDatabase, getWholeCollection, setDataForCollection, getDataFromCollectionUsingKey } = require("../../src/thirdPartyAPIWrappers/dbInterface");
+const { resetDatabase, getWholeCollection, setDataForCollection, getDataFromCollectionUsingKey, connectToDatabase} = require("../../src/thirdPartyAPIWrappers/dbInterface");
 
 describe('Database CRUD operation tests via the DB interface', () => {
 
@@ -10,9 +10,10 @@ describe('Database CRUD operation tests via the DB interface', () => {
         const collection = "Fruits"
         const people = {"Citrus": ["Apple", "Orange", "Lime"]}
 
+        await connectToDatabase();
         await setDataForCollection(people, collection);
 
-        const actualData = await getWholeCollection(collection);
+        const actualData = await getDataFromCollectionUsingKey(collection, "Citrus");
 
         expect(actualData, " Data should be exactly: ").to.deep.equal(people);
 

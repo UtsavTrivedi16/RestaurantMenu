@@ -1,81 +1,73 @@
-const MongoClient = require('mongodb').MongoClient;
+const _ = require("lodash");
+const { MongoClient } = require("mongodb");
+// const db = require("../config").db;
 
 const DB_NAME = process.env.DB_NAME;
 const DB_URL = process.env.DB_URL.replace('${DB_NAME}', DB_NAME);
 
-const setDataForCollection = async (data, collectionName) => {
-    let client = null;
+// const DB_URL = "mongodb://localhost:27017/poc-test?replicaSet=rs0"
 
+let db = null;
+
+if(!_.isEmpty(db)){
+    db.on('error', function(err){
+        console.error("Error connecting to Database!", err);
+        if (!_.isEmpty(db)) {
+            db.close();
+        }
+    })
+
+    db.on('connect', function(){
+        console.log("Database is connected!");
+    })
+}
+
+
+async function connectToDatabase(){
     try {
-        client = await MongoClient.connect(
-            DB_URL,
-            {
-                useNewUrlParser: true,
-                useUnifiedTopology: true,
-            },
-        );
-        const db = client.db(DB_NAME);
+        // Connect the client to the server (optional starting in v4.7)
+        const client = new MongoClient(DB_URL,  {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            tls: true,
+            tlsInsecure: true,
+            socketTimeoutMS: 60000
+        });
 
-        await db.collection(collectionName).insertMany(data);
-    }catch(error){
-        console.error(error);
-    }finally{
-        client.close();
+        await client.connect();
+        db = client.db(DB_NAME);
+        // Send a ping to confirm a successful connection
+        await db.command({ ping: 1 });
+        console.log("Pinged your deployment. You successfully connected to MongoDB!");
+    } catch(e) {
+        // Ensures that the client will close when you finish/error
+        console.error(e);
     }
 
+}
+
+async function setDataForCollection(data, collectionName){
+    const success = await db.collection(collectionName).insertMany([data]);
+    return success;
 };
 
-const getWholeCollection = async collectionName => {
-    const client = await MongoClient.connect(
-        DB_URL,
-        {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        },
-    );
-    const db = client.db(DB_NAME);
-
-    const result = await db.collection(collectionName).find().toArray();
-
-    client.close();
-
+async function getWholeCollection(collectionName){
+    const result = await db.collection(collectionName).find({}).toArray();
     return result;
 };
 
-const getDataFromCollectionUsingKey = async (collectionName, key) => {
-    const client = await MongoClient.connect(
-        DB_URL,
-        {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        },
-    );
-    const db = client.db(DB_NAME);
-
+async function getDataFromCollectionUsingKey(collectionName, key){
     const result = await db.collection(collectionName).find(key).toArray();
-
-    client.close();
-
     return result;
 };
 
-const resetDatabase = async () => {
-    const client = await MongoClient.connect(
-        DB_URL,
-        {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        },
-    );
-    const db = client.db(DB_NAME);
-
+async function resetDatabase(){
     await db.dropDatabase();
-
-    client.close();
 };
 
 
 module.exports = {
+    connectToDatabase,
     resetDatabase,
     getWholeCollection,
     setDataForCollection,
