@@ -9,18 +9,18 @@ const DB_URL = process.env.DB_URL.replace('${DB_NAME}', DB_NAME);
 
 let db = null;
 
-if(!_.isEmpty(db)){
-    db.on('error', function(err){
-        console.error("Error connecting to Database!", err);
-        if (!_.isEmpty(db)) {
-            db.close();
-        }
-    })
-
-    db.on('connect', function(){
-        console.log("Database is connected!");
-    })
-}
+// if(!_.isEmpty(db)){
+//     db.on('error', function(err){
+//         console.error("Error connecting to Database!", err);
+//         if (!_.isEmpty(db)) {
+//             db.close();
+//         }
+//     })
+//
+//     db.on('connect', function(){
+//         console.log("Database is connected!");
+//     })
+// }
 
 
 async function connectToDatabase(){
@@ -46,19 +46,16 @@ async function connectToDatabase(){
 
 }
 
-async function setDataForCollection(data, collectionName){
-    const success = await db.collection(collectionName).insertMany([data]);
-    return success;
+async function storeDataForCollection(data, collectionName){
+    return await db.collection(collectionName).insertMany([data]);
 };
 
 async function getWholeCollection(collectionName){
-    const result = await db.collection(collectionName).find({}).toArray();
-    return result;
+    return await db.collection(collectionName).find({}).toArray();
 };
 
 async function getDataFromCollectionUsingKey(collectionName, key){
-    const result = await db.collection(collectionName).find(key).toArray();
-    return result;
+    return await db.collection(collectionName).findOne({}, {fields: {[key]: 1, _id: 0}});
 };
 
 async function resetDatabase(){
@@ -70,6 +67,6 @@ module.exports = {
     connectToDatabase,
     resetDatabase,
     getWholeCollection,
-    setDataForCollection,
+    storeDataForCollection,
     getDataFromCollectionUsingKey
 }
