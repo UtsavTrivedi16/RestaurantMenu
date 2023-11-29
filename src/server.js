@@ -1,9 +1,9 @@
 const http = require('http');
-const routeHandlers = require('./routes/routeHandlers');
+const { routeHandlers, notFoundRoute } = require('./routes/routeHandlers');
 
 function createServer(){
     const server = http.createServer((req, res) => {
-        const handler = routeHandlers[req.url] || routeHandlers.notFoundRoute;
+        const handler = routeHandlers[req.url] || notFoundRoute;
         handler(req, res);
     });
 
