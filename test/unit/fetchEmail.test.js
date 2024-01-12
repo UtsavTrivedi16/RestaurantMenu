@@ -75,11 +75,11 @@ describe('When user submits email it is checked', () => {
 
 describe("Email storage and retrieval of user and emails from database", () => {
 
-    let setDataForCollectionStub = null;
+    let storeDataForCollectionStub = null;
     let getDataFromCollectionUsingKeyStub = null;
 
     beforeEach(function () {
-        setDataForCollectionStub = sinon.stub(dbInterface, "setDataForCollection");
+        storeDataForCollectionStub = sinon.stub(dbInterface, "storeDataForCollection");
         getDataFromCollectionUsingKeyStub = sinon.stub(dbInterface, "getDataFromCollectionUsingKey");
     });
 
@@ -90,7 +90,7 @@ describe("Email storage and retrieval of user and emails from database", () => {
         ];
 
         for (let i = 0; i < emails.length; i++){
-            setDataForCollectionStub.callsFake(() => {console.log("Stored ", emails[i]," in DB")})
+            storeDataForCollectionStub.callsFake(() => {console.log("Stored ", emails[i]," in DB")})
             getDataFromCollectionUsingKeyStub.returns(emails[i]);
 
             await storeUserAndEmail(emails[i]);

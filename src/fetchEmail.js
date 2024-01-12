@@ -18,7 +18,7 @@ async function verifyEmailIsReachable(email){
 }
 
 async function storeUserAndEmail(email){
-    await dbInterface.setDataForCollection(email, "EmailList");
+    await dbInterface.storeDataForCollection(email, "EmailList");
 }
 
 async function getUserDataFromEmail(email){
