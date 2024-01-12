@@ -1,0 +1,44 @@
+name: Cuba Duba Food Template Actions
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  Unit_Test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [ 12.22.12, 16.x, 18.x ]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    timeout-minutes: 10
+
+    env:
+      PORT: 3001
+      HOSTNAME: localhost
+      DB_NAME: "utsav-test"
+      DB_URL: "mongodb://localhost:27017/utsav-test?replicaSet=rs0"
+
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
+      - name: "🔧 setup Node"
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - name: "📦 install dependencies"
+        run: npm ci
+      - name: "🔍 Run Unit tests"
+        run: npm run test:unit
+      - run: echo "🍏 This job's status is ${{ job.status }}."

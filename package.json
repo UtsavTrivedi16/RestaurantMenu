@@ -20,8 +20,9 @@
     "supertest": "^6.3.3"
   },
   "scripts": {
-    "test": "NODE_ENV=test mocha \"test/**/*.test.js\"",
-    "test:watch": "NODE_ENV=test mocha \"test/unit/*.test.js\" --watch",
+    "test:unit": "NODE_ENV=test mocha \"test/unit/*.test.js\"",
+    "test:unit:watch": "NODE_ENV=test mocha \"test/unit/*.test.js\" --watch",
+    "test:all": "NODE_ENV=test mocha \"test/**/*.test.js\"",
     "coverage": "NODE_ENV=test nyc --reporter=lcov --reporter=text npm run test",
     "start": "NODE_ENV=dev node ./src/app.js"
   },
