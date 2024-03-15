@@ -1,4 +1,4 @@
-name: Cuba Duba Food Template Actions
+name: RestaurantMenu Actions
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 
 on:

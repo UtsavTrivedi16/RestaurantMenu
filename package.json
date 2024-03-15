@@ -1,5 +1,5 @@
 {
-  "name": "cubadupafoodtemplate",
+  "name": "restaurantmenu",
   "version": "1.0.0",
   "main": "app.js",
   "dependencies": {
