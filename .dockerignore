@@ -2,4 +2,10 @@
 .nyc_output/
 coverage/
 .github/
-.env/
+env/
+.dockerignore
+.gitignore
+.idea
+.git
+node_modules
+package-lock.json

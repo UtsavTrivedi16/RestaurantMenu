@@ -20,11 +20,11 @@
     "supertest": "^6.3.3"
   },
   "scripts": {
-    "test:unit": "NODE_ENV=test mocha \"test/unit/*.test.js\"",
-    "test:unit:watch": "NODE_ENV=test mocha \"test/unit/*.test.js\" --watch",
-    "test:all": "NODE_ENV=test mocha \"test/**/*.test.js\"",
-    "coverage": "NODE_ENV=test nyc --reporter=lcov --reporter=text npm run test",
-    "start": "NODE_ENV=dev node ./src/app.js"
+    "test:unit": "mocha \"test/unit/*.test.js\"",
+    "test:unit:watch": "mocha \"test/unit/*.test.js\" --watch",
+    "test:all": "mocha \"test/**/*.test.js\"",
+    "coverage": "nyc --reporter=lcov --reporter=text npm run test",
+    "start": "node ./src/app.js"
   },
   "nyc": {
     "exclude": [

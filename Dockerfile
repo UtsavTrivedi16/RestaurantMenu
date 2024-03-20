@@ -1,5 +1,6 @@
-FROM node:12.22.12-bullseye as Cuba-image
+FROM node:12.22.12-bullseye as restaurantmenu-image
 
 WORKDIR /app/
-COPY ./src .
-COPY sbi/start.sh .
+COPY ./ .
+RUN ls -la .
+RUN npm install

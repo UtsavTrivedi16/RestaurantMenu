@@ -18,6 +18,7 @@ jobs:
 
     env:
       DB_NAME: "utsav-test"
+      NODE_ENV: "test"
       DB_URL: ${{ secrets.DB_URL }}
 
     steps:
