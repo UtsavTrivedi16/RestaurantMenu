@@ -1,13 +1,24 @@
 const http = require('http');
 const { routeHandlers, notFoundRoute } = require('./routes/routeHandlers');
 
+const fileFormats = [".html", ".css", ".webp", ".avif", ".mp4"];
+
 function createServer(){
     const server = http.createServer((req, res) => {
-        if(req.url.endsWith('.css') || req.url.endsWith('.mp4') || req.url.endsWith('.webp') ||
-            req.url.endsWith('.avif') || req.url.endsWith('.html')){
+        let hasFormat = false;
+
+        for (let i = 0; i < fileFormats.length; i++){
+            if(req.url.endsWith(fileFormats[i])){
+                hasFormat = true;
+                break;
+            }
+        }
+
+        if(hasFormat) {
             routeHandlers['/public'](req, res);
             return;
         }
+
         const handler = routeHandlers[req.url] || notFoundRoute;
         handler(req, res);
     });
