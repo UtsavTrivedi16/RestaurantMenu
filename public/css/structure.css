@@ -2,7 +2,7 @@
 body {
     font-family: 'Roboto Mono', monospace;
     color: white;
-    background-image: url(images/vegetables-set-left-black-slate_1220-685.avif);
+    background-image: url(../images/vegetables-set-left-black-slate_1220-685.avif);
     background-repeat: repeat-y;
     background-position: right top;
     background-size: cover;
@@ -39,7 +39,7 @@ p.ingredients {
 
 li.mainCourse {
     list-style-type: None;
-    background-image: url(images/CurryPot-OW.webp);
+    background-image: url(../images/CurryPot-OW.webp);
     background-repeat: no-repeat;
     background-size: 25px;
     background-position: 0 5px;
