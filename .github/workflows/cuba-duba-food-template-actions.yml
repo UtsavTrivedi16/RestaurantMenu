@@ -20,6 +20,7 @@ jobs:
       DB_NAME: "utsav-test"
       NODE_ENV: "test"
       DB_URL: ${{ secrets.DB_URL }}
+      HUSKY: 0
 
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."

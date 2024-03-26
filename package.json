@@ -15,17 +15,12 @@
     "chai": "^4.3.7",
     "chai-exclude": "^2.1.0",
     "eslint": "^8.57.0",
-    "husky": "^9.0.11",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.2",
     "mocha": "^10.2.0",
     "nyc": "^15.1.0",
     "sinon": "^15.2.0",
     "supertest": "^6.3.3"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run precommit",
-      "pre-push": "npm run prepush"
-    }
   },
   "scripts": {
     "test:unit": "mocha \"test/unit/*.test.js\"",
@@ -33,9 +28,9 @@
     "test:all": "mocha \"test/**/*.test.js\"",
     "coverage": "nyc --reporter=lcov --reporter=text npm run test",
     "start": "node ./src/app.js",
-    "lint": "eslint ./src",
-    "test:unit:docker": "node run ./git/hooks/runPrePush.js",
-    "precommit": "npm run lint && npm run test:unit",
+    "lint-staged": "lint-staged ./src",
+    "test:unit:docker": "node run ./hooks/runPrePush.js",
+    "precommit": "npm run lint-staged && npm run test:unit",
     "prepush": "npm run test:unit:docker"
   },
   "nyc": {
