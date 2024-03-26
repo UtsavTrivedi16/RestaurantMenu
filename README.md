@@ -1,6 +1,6 @@
 # Intro
 
-Web app containing chef specials only. Basic HTML, CSS and js
+Web app containing chef specials only. Basic HTML, CSS, js, tdd with mocha, git hooks
 
 # Run 
 
