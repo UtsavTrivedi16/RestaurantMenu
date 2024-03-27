@@ -1,4 +1,4 @@
-const { resetDatabase, getWholeCollection, storeDataForCollection,
+const { resetDatabase, storeDataForCollection,
     getDataFromCollectionUsingKey, connectToDatabase} = require("../../src/thirdPartyAPIWrappers/dbInterface");
 
 describe('Database CRUD operation tests via the DB interface', () => {

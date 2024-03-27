@@ -1,5 +1,5 @@
 const path = require("path");
-const { spawnSync, execSync, exec } = require("child_process");
+const { spawnSync, execSync } = require("child_process");
 const basePath = path.resolve(__dirname, "../../");
 
 function isPackageJsonModified(){
@@ -33,7 +33,7 @@ async function prePushCheck(){
 function isDockerImageBuilt(){
     try{
         console.log('Checking if Docker image exists');
-        // const containerList = spawnSync('docker', ['images', 'restaurantmenu-image:latest', '../../.']).stdout.toString().trim();
+        // const containerList = spawnSync('docker', ['images', 'restaurantmenu-image:latest'], {cwd: basePath}).stdout.toString().trim();
         const containerList = execSync('docker images restaurantmenu-image:latest', {cwd: basePath}).toString().trim();
         return containerList.split('\n').includes('restaurantmenu-image');
 

@@ -1,11 +1,7 @@
 const _ = require("lodash");
 const { MongoClient } = require("mongodb");
-// const db = require("../config").db;
-
 const DB_NAME = process.env.DB_NAME;
 const DB_URL = process.env.DB_URL.replace('${DB_NAME}', DB_NAME);
-
-// const DB_URL = "mongodb://localhost:27017/poc-test?replicaSet=rs0"
 
 let db = null;
 
@@ -30,7 +26,8 @@ async function connectToDatabase(){
             useNewUrlParser: true,
             useUnifiedTopology: true,
             tls: true,
-            tlsInsecure: true,
+            tlsAllowInvalidCertificates: true,
+            tlsAllowInvalidHostnames: true,
             socketTimeoutMS: 60000
         });
 
@@ -38,7 +35,7 @@ async function connectToDatabase(){
         db = client.db(DB_NAME);
         // Send a ping to confirm a successful connection
         await db.command({ ping: 1 });
-        console.log("Pinged your deployment. You successfully connected to MongoDB!");
+        console.log("Pinged your deployment. Successfully connected to MongoDB!");
     } catch(e) {
         // Ensures that the client will close when you finish/error
         console.error(e);
@@ -51,7 +48,7 @@ async function storeDataForCollection(data, collectionName){
 };
 
 async function getWholeCollection(collectionName){
-    return await db.collection(collectionName).find({}).toArray();
+    return await db.collection(collectionName);
 };
 
 async function getDataFromCollectionUsingKey(collectionName, key){
@@ -59,7 +56,11 @@ async function getDataFromCollectionUsingKey(collectionName, key){
 };
 
 async function resetDatabase(){
-    await db.dropDatabase();
+    await db.listCollections().forEach(
+        collection => {
+            db.collection(collection.name).deleteOne();
+        }
+    );
 };
 
 
